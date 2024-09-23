@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>2.6.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.openclassrooms</groupId>
@@ -16,8 +16,8 @@
 	<description>The best backend for an Yoga app !</description>
 
 	<properties>
-		<maven.compiler.source>21</maven.compiler.source>
-    	<maven.compiler.target>21</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.3.232</version>
+			<version>1.4.200</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.12.6</version>
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -90,13 +90,13 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.6.2</version>
+			<version>1.5.1.Final</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.6.2</version>
+			<version>1.5.1.Final</version>
 		</dependency>
 	</dependencies>
 
@@ -105,7 +105,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.1</version> <!-- Dernière version supportant Java 21 -->
+				<!-- <version>3.10.1</version> -->
 			</plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -127,6 +127,11 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
+				<!-- <configuration>
+					<excludes>
+						<exclude>com/openclassrooms/starterjwt/dto/*</exclude>
+					</excludes>
+				</configuration> -->
 				<executions>
 					<execution>
 						<goals>

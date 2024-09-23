@@ -63,6 +63,8 @@ public class AuthControllerTest {
         
         // WHEN
 
+        // when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+        // .thenReturn(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
         .thenReturn(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 

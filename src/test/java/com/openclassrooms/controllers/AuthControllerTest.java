@@ -2,12 +2,8 @@ package com.openclassrooms.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,12 +12,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import com.openclassrooms.starterjwt.controllers.AuthController;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.payload.request.LoginRequest;
+import com.openclassrooms.starterjwt.payload.request.SignupRequest;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
@@ -49,6 +48,9 @@ public class AuthControllerTest {
     @Mock
     private UserDetailsImpl userDetailsImpl;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @Test
     @DisplayName("should authenticate user")
     public void shouldAuthenticateUser(){
@@ -60,17 +62,24 @@ public class AuthControllerTest {
 
         User user = new User();
         user.setAdmin(true);
+
+        UserDetailsImpl userDetailsImpl = new UserDetailsImpl(1L, 
+                                    "john.doe@gmail.com", 
+                                    "John", 
+                                    "Doe", 
+                                    false, 
+                                    "super-password");
+        
+        Authentication authentication = mock(Authentication.class);
+        
         
         // WHEN
 
-        // when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-        // .thenReturn(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-        .thenReturn(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
 
-        when(authentication.getPrincipal()).thenReturn(loginRequest.getEmail());
+        when(authentication.getPrincipal()).thenReturn(userDetailsImpl);
 
-        when(jwtUtils.generateJwtToken(authentication)).thenReturn("this is a fake token");
+        when(jwtUtils.generateJwtToken(any(Authentication.class))).thenReturn("thisIsaFakeToken");
 
         when(userRepository.findByEmail(userDetailsImpl.getUsername())).thenReturn(Optional.of(user));
 
@@ -79,17 +88,58 @@ public class AuthControllerTest {
         ResponseEntity<?> responseEntity = authController.authenticateUser(loginRequest);
 
         verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtUtils, times(1)).generateJwtToken(authentication);
+        verify(jwtUtils, times(1)).generateJwtToken(any(Authentication.class));
         verify(userRepository, times(1)).findByEmail(userDetailsImpl.getUsername());
 
         assertThat(responseEntity).isNotNull();
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);        
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
-    @DisplayName("should authenticate user because TODEFINE")
-    public void shouldNotAuthenticateUser_ThrowsTODEFINE(){
+    @DisplayName("should register user")
+    public void shouldRegisterUser(){
+        SignupRequest signupRequest = new SignupRequest();
         
+        signupRequest.setFirstName("john");
+        signupRequest.setEmail("j.d@gmail.com");
+        signupRequest.setLastName("doe");
+        signupRequest.setPassword("superpassword1234");
+
+        User expectedUser = new User()
+        .setEmail(signupRequest.getEmail())
+        .setFirstName(signupRequest.getFirstName())
+        .setLastName(signupRequest.getLastName())
+        .setPassword(signupRequest.getPassword())
+        .setAdmin(false);
+
+        when(userRepository.existsByEmail(signupRequest.getEmail())).thenReturn(false);
+        when(passwordEncoder.encode(anyString())).thenReturn("superencryptedpassword");
+        when(userRepository.save(any(User.class))).thenReturn(expectedUser);
+
+        ResponseEntity<?> responseEntity = authController.registerUser(signupRequest);
+
+        verify(userRepository, times(1)).existsByEmail(anyString());
+        verify(passwordEncoder, times(1)).encode(anyString());
+        verify(userRepository,times(1)).save(any(User.class));
+
+        assertThat(responseEntity).isNotNull();
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
     
+    @Test
+    @DisplayName("should not register user because email already exist")
+    public void shouldNotRegisterUser_ThrowBadRequest(){
+        SignupRequest signupRequest = new SignupRequest();
+        signupRequest.setEmail("j.d@gmail.com");
+
+        when(userRepository.existsByEmail(signupRequest.getEmail())).thenReturn(true);
+
+        ResponseEntity<?> responseEntity = authController.registerUser(signupRequest);
+
+        verify(userRepository, times(1)).existsByEmail(anyString());
+        verify(passwordEncoder, times(0)).encode(anyString());
+        verify(userRepository,times(0)).save(any(User.class));
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 }

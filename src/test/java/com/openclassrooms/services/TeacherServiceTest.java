@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -39,12 +37,12 @@ public class TeacherServiceTest {
     public void shouldFindAllTeachers(){
         // GIVEN
         Teacher professeurTournesol = new Teacher()
-                                        .setId(Long.valueOf(1))
+                                        .setId(1L)
                                         .setFirstName("Yves")
                                         .setLastName("De La Passion");
 
         Teacher pereDucrass = new Teacher()
-                                        .setId(Long.valueOf(2))
+                                        .setId(2L)
                                         .setFirstName("Le père")
                                         .setLastName("Ducrass");
 
@@ -91,7 +89,7 @@ public class TeacherServiceTest {
     @DisplayName("should find teacher by id")
     public void shouldFindTeacherById(){
         // GIVEN
-        Long teacherId = Long.valueOf(1);
+        Long teacherId = 1L;
 
         Teacher professeurTournesol = new Teacher()
                                         .setId(teacherId)
@@ -117,7 +115,7 @@ public class TeacherServiceTest {
     @DisplayName("should not find teacher")
     public void shouldNotFindTeacherById(){
         // GIVEN
-        Long teacherId = Long.valueOf(1);
+        Long teacherId = 1L;
 
         // WHEN
         when(teacherRepository.findById(teacherId)).thenReturn(Optional.empty());

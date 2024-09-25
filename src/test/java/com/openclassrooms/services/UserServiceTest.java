@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Optional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class UserServiceTest {
     @DisplayName("should delete user by id")
     public void shouldDeleteUserById(){
         // GIVEN
-        Long userId = Long.valueOf(1);
+        Long userId = 1L;
 
         // WHEN
         
@@ -53,7 +52,7 @@ public class UserServiceTest {
     @DisplayName("should fin user by id")
     public void shouldFindUserById(){
         // GIVEN
-        Long userId = Long.valueOf(1);
+        Long userId = 1L;
 
         User expectedUser = new User()
                             .setId(userId)
@@ -81,7 +80,7 @@ public class UserServiceTest {
     @DisplayName("should not find user by id")
     public void shouldNotFindUserById(){
         // GIVEN
-        Long userId = Long.valueOf(1);
+        Long userId = 1L;
 
         // WHEN
 

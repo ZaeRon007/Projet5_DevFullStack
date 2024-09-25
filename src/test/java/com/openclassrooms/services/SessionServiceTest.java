@@ -49,7 +49,7 @@ public class SessionServiceTest {
         // GIVEN
 
         Session expectedSession = new Session()
-        .setId(Long.valueOf(1))
+        .setId(1L)
         .setName("Session test")
         .setDate(new Date())
         .setDescription("description test")
@@ -80,12 +80,12 @@ public class SessionServiceTest {
         // GIVEN 
 
         // WHEN 
-        when(sessionRepository.findById(Long.valueOf(1))).thenReturn(null);
+        when(sessionRepository.findById(1L)).thenReturn(null);
 
         // THEN
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> sessionService.getById(Long.valueOf(1)));
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> sessionService.getById(1L));
 
-        verify(sessionRepository, times(1)).findById(Long.valueOf(1));
+        verify(sessionRepository, times(1)).findById(1L);
 
 
         assertThat(exception).isExactlyInstanceOf(NullPointerException.class);
@@ -96,7 +96,7 @@ public class SessionServiceTest {
     public void shouldFoundSessionById(){
         // GIVEN 
         Session expectedSession = new Session()
-                        .setId(Long.valueOf(1))
+                        .setId(1L)
                         .setName("Session")
                         .setDate(new Date())
                         .setDescription("description")
@@ -106,12 +106,12 @@ public class SessionServiceTest {
                         .setUpdatedAt(LocalDateTime.now());
 
         // WHEN
-        when(sessionRepository.findById(Long.valueOf(1))).thenReturn(Optional.of(expectedSession));
+        when(sessionRepository.findById(1L)).thenReturn(Optional.of(expectedSession));
 
         // THEN
-        Session session = sessionService.getById(Long.valueOf(1));
+        Session session = sessionService.getById(1L);
 
-        verify(sessionRepository, times(1)).findById(Long.valueOf(1));
+        verify(sessionRepository, times(1)).findById(1L);
 
 
         assertThat(session).isNotNull();
@@ -128,7 +128,7 @@ public class SessionServiceTest {
     @DisplayName("Should delete a session by id")
     public void shouldDeleteSession(){
         // GIVEN 
-        Long sessionId = Long.valueOf(1);
+        Long sessionId = 1L;
 
         // WHEN 
 
@@ -146,13 +146,13 @@ public class SessionServiceTest {
         // GIVEN 
         List<Session> list = new ArrayList<>();
         list.add(new Session()
-                    .setId(Long.valueOf(1))
+                    .setId(1L)
                     .setName("Session 1"));
         list.add(new Session()  
-                    .setId(Long.valueOf(2))
+                    .setId(2L)
                     .setName("Session 2"));
         list.add(new Session()
-                    .setId(Long.valueOf(3))
+                    .setId(3L)
                     .setName("Session 3"));
         // WHEN 
         when(sessionRepository.findAll()).thenReturn(list);
@@ -192,7 +192,7 @@ public class SessionServiceTest {
     public void shouldFindSessionById(){
         // GIVEN
         Session expectedSession = new Session()
-                                .setId(Long.valueOf(1))
+                                .setId(1L)
                                 .setName("session")
                                 .setDate(new Date())
                                 .setDescription("the session")
@@ -200,12 +200,12 @@ public class SessionServiceTest {
                                 .setUpdatedAt(LocalDateTime.now());
 
         // WHEN 
-        when(sessionRepository.findById(Long.valueOf(1))).thenReturn(Optional.of(expectedSession));
+        when(sessionRepository.findById(1L)).thenReturn(Optional.of(expectedSession));
 
         // THEN
-        Session found = sessionService.getById(Long.valueOf(1));
+        Session found = sessionService.getById(1L);
 
-        verify(sessionRepository, times(1)).findById(Long.valueOf(1));
+        verify(sessionRepository, times(1)).findById(1L);
 
         assertThat(found).isNotNull();
         assertThat(found.getId()).isEqualTo(expectedSession.getId());
@@ -221,7 +221,7 @@ public class SessionServiceTest {
     public void shouldUpdateSession(){
         // GIVEN
         Session expectedSession = new Session()
-        .setId(Long.valueOf(50))
+        .setId(50L)
         .setName("Session")
         .setDate(new Date())
         .setDescription("description")
@@ -251,7 +251,7 @@ public class SessionServiceTest {
     public void shouldParticipateToSession(){
         // GIVEN
         User user = new User()
-                .setId(Long.valueOf(1))
+                .setId(1L)
                 .setFirstName("user")
                 .setLastName("lastname")
                 .setEmail("user@gmail.com");
@@ -260,11 +260,11 @@ public class SessionServiceTest {
         listOfUsers.add(user);
 
         Session session = new Session()
-        .setId(Long.valueOf(1))
+        .setId(1L)
         .setUsers(new ArrayList<>());
 
         Session expectedSession = new Session()
-        .setId(Long.valueOf(1))
+        .setId(1L)
         .setUsers(listOfUsers);
 
         // WHEN 
@@ -284,8 +284,8 @@ public class SessionServiceTest {
     @DisplayName("Should not participate to session because session not found")
     public void shouldNotParticipateToSession_1_ThrowsNotFoundException(){
         // GIVEN
-        Long sessionId = Long.valueOf(1);
-        Long userId = Long.valueOf(1);
+        Long sessionId = 1L;
+        Long userId = 1L;
         // WHEN 
 
         // THEN
@@ -303,13 +303,13 @@ public class SessionServiceTest {
     public void shouldNotParticipateToSession_2_ThrowsNotFoundException(){
         // GIVEN
         Session expectedSession = new Session()
-                            .setId(Long.valueOf(1))
+                            .setId(1L)
                             .setName("session")
                             .setDate(new Date())
                             .setDescription("description")
                             .setCreatedAt(LocalDateTime.now())
                             .setUpdatedAt(LocalDateTime.now());
-        Long userId = Long.valueOf(1);
+        Long userId = 1L;
 
         // WHEN 
         when(sessionRepository.findById(expectedSession.getId())).thenReturn(Optional.of(expectedSession));
@@ -338,13 +338,13 @@ public class SessionServiceTest {
     @DisplayName("Should not participate to session because user already participate")
     public void shouldNotParticipateToSession_ThrowsBadRequestException(){
         // GIVEN
-        User user = new User().setId(Long.valueOf(25)).setFirstName("user").setLastName("lastname").setEmail("user@gmail.com");
+        User user = new User().setId(25L).setFirstName("user").setLastName("lastname").setEmail("user@gmail.com");
         
         List<User> expectedUser = new ArrayList<User>();
         expectedUser.add(user);
 
         Session expectedSession = new Session()
-        .setId(Long.valueOf(1))
+        .setId(1L)
         .setUsers(expectedUser);
 
         // WHEN 
@@ -366,7 +366,7 @@ public class SessionServiceTest {
     public void shouldNoLongerParticipateToSession(){
         // GIVEN
         User user = new User()
-                .setId(Long.valueOf(25))
+                .setId(25L)
                 .setFirstName("user")
                 .setLastName("lastname")
                 .setEmail("user@gmail.com");
@@ -375,11 +375,11 @@ public class SessionServiceTest {
         listOfUsers.add(user);
 
         Session session = new Session()
-        .setId(Long.valueOf(1))
+        .setId(1L)
         .setUsers(listOfUsers);
 
         Session expectedSession = new Session()
-                                    .setId(Long.valueOf(1))
+                                    .setId(1L)
                                     .setUsers(new ArrayList<>());
 
         // WHEN 
@@ -398,8 +398,8 @@ public class SessionServiceTest {
     @DisplayName("Should throws not found exception because session is null")
     public void shouldNoLongerParticipateToSession_ThrowsNotFoundException(){
          // GIVEN
-        Long sessionId = Long.valueOf(1);
-        Long userId = Long.valueOf(1);
+        Long sessionId = 1L;
+        Long userId = 1L;
 
         // WHEN 
 
@@ -417,8 +417,8 @@ public class SessionServiceTest {
     @DisplayName("Should throws BadRequestException because user doesn't participate to session initialy")
     public void shouldNoLongerParticipateToSession_ThrowsBadRequestException(){
         // GIVEN
-        Long sessionId = Long.valueOf(1);
-        Long userId = Long.valueOf(1);
+        Long sessionId = 1L;
+        Long userId = 1L;
 
         Session expectedSession = new Session()
                                     .setId(sessionId)

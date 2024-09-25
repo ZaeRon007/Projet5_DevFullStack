@@ -26,7 +26,7 @@ import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 
 @Tag("AuthController")
-@DisplayName("unit tests for AutheController")
+@DisplayName("unit tests for AuthController")
 @ExtendWith(MockitoExtension.class)
 public class AuthControllerTest {
 

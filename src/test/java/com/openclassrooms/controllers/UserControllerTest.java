@@ -7,6 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import com.openclassrooms.starterjwt.controllers.UserController;
 import com.openclassrooms.starterjwt.dto.UserDto;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
@@ -36,7 +37,6 @@ public class UserControllerTest {
 
     @Mock
     private UserMapper userMapper;
-    
 
     @Test
     @DisplayName("should find by id")
@@ -86,10 +86,66 @@ public class UserControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
-    // @Test
-    // @DisplayName("should save user")
-    // public void shouldSaveUser(){
+    @Test
+    @DisplayName("should save user")
+    @Disabled
+    public void shouldSaveUser(){
+        Long id = 1L;
+        User user = mock(User.class);
+        // UserDetails userDetails = mock(UserDetails.class);
 
-    // }
-    
+        when(userService.findById(id)).thenReturn(user);
+        //when(User.getEmail()).thenReturn("test");
+
+        ResponseEntity<?> responseEntity = userController.save(id.toString());
+
+        verify(userService, times(1)).findById(id);
+        verify(userService, times(0)).delete(id);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    @DisplayName("should not save user because user is null")
+    public void shouldNotSaveUser_1(){
+        Long id = 1L;
+
+        when(userService.findById(id)).thenReturn(null);
+
+        ResponseEntity<?> responseEntity = userController.save(id.toString());
+
+        verify(userService, times(0)).delete(id);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("should not save user because id is incorrect")
+    public void shouldNotSaveUser_2(){
+        String id = "oups";
+
+        ResponseEntity<?> responseEntity = userController.save(id);
+
+        verify(userService, times(0)).delete(anyLong());
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("should not save user because user is not authorized")
+    public void shouldNotSaveUser_3(){
+        Long id = 1L;
+        User user = mock(User.class);
+        
+        when(userService.findById(id)).thenReturn(user);
+        
+        ResponseEntity<?> responseEntity = userController.save(id.toString());
+        
+        verify(userService, times(1)).findById(id);
+        verify(userService, times(0)).delete(id);
+        
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        
+    }
+
 }

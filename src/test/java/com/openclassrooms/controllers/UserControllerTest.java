@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -92,10 +91,8 @@ public class UserControllerTest {
     public void shouldSaveUser(){
         Long id = 1L;
         User user = mock(User.class);
-        // UserDetails userDetails = mock(UserDetails.class);
 
         when(userService.findById(id)).thenReturn(user);
-        //when(User.getEmail()).thenReturn("test");
 
         ResponseEntity<?> responseEntity = userController.save(id.toString());
 

@@ -1,4 +1,4 @@
-package com.openclassrooms.services;
+package com.openclassrooms.starterjwt.services;
 
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
@@ -10,8 +10,6 @@ import com.openclassrooms.starterjwt.models.Session;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.SessionRepository;
 import com.openclassrooms.starterjwt.repository.UserRepository;
-import com.openclassrooms.starterjwt.services.SessionService;
-import com.openclassrooms.starterjwt.services.UserService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -83,12 +81,9 @@ public class SessionServiceTest {
         when(sessionRepository.findById(1L)).thenReturn(null);
 
         // THEN
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> sessionService.getById(1L));
+        assertThrows(NullPointerException.class, () -> sessionService.getById(1L));
 
         verify(sessionRepository, times(1)).findById(1L);
-
-
-        assertThat(exception).isExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -289,13 +284,11 @@ public class SessionServiceTest {
         // WHEN 
 
         // THEN
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> sessionService.participate(sessionId,userId));
+        assertThrows(NotFoundException.class, () -> sessionService.participate(sessionId,userId));
 
         verify(sessionRepository, times(1)).findById(sessionId);
         verify(userRepository, times(1)).findById(userId);
         verify(sessionRepository, times(0)).save(any(Session.class));
-        
-        assertThat(exception).isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -316,8 +309,8 @@ public class SessionServiceTest {
 
         // THEN
         Session foundSession = sessionService.getById(expectedSession.getId());
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> sessionService.participate(expectedSession.getId(),userId));
-
+        
+        assertThrows(NotFoundException.class, () -> sessionService.participate(expectedSession.getId(),userId));
 
         verify(sessionRepository, times(2)).findById(expectedSession.getId());
         verify(userRepository, times(1)).findById(userId);
@@ -330,8 +323,6 @@ public class SessionServiceTest {
         assertThat(foundSession.getDescription()).isEqualTo(expectedSession.getDescription());
         assertThat(foundSession.getCreatedAt()).isEqualTo(expectedSession.getCreatedAt());
         assertThat(foundSession.getUpdatedAt()).isEqualTo(expectedSession.getUpdatedAt());
-
-        assertThat(exception).isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -352,13 +343,12 @@ public class SessionServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
         // THEN
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> sessionService.participate(expectedSession.getId(),user.getId()));
+        assertThrows(BadRequestException.class, () -> sessionService.participate(expectedSession.getId(),user.getId()));
 
         verify(sessionRepository, times(1)).findById(expectedSession.getId());
         verify(userRepository, times(1)).findById(user.getId());
         verify(sessionRepository, times(0)).save(any(Session.class));
         
-        assertThat(exception).isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -404,13 +394,10 @@ public class SessionServiceTest {
         // WHEN 
 
         // THEN
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> sessionService.noLongerParticipate(sessionId,userId));       
+        assertThrows(NotFoundException.class, () -> sessionService.noLongerParticipate(sessionId,userId));       
         
         verify(sessionRepository, times(1)).findById(sessionId);
         verify(sessionRepository, times(0)).save(any(Session.class));
-       
-        assertThat(exception).isInstanceOf(NotFoundException.class);
-
     }
 
     @Test
@@ -428,11 +415,10 @@ public class SessionServiceTest {
         when(sessionRepository.findById(sessionId)).thenReturn(Optional.of(expectedSession));
 
         // THEN
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> sessionService.noLongerParticipate(sessionId,userId));       
+        assertThrows(BadRequestException.class, () -> sessionService.noLongerParticipate(sessionId,userId));       
         
         verify(sessionRepository, times(1)).findById(sessionId);
         verify(sessionRepository, times(0)).save(any(Session.class));
 
-        assertThat(exception).isInstanceOf(BadRequestException.class);
     }
 }

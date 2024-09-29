@@ -2,6 +2,7 @@ package com.openclassrooms.starterjwt.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,20 +65,8 @@ public class UserControllerIntegrationTest {
         return JsonPath.parse(response).read("$.token"); 
     }
 
-    //REGISTER : 
-    // @Test
-    // public void testCreateUser() throws Exception {
-    //     String userJson = "{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\" }";
-    //     mockMvc.perform(post("/users")
-    //             .contentType(MediaType.APPLICATION_JSON)
-    //             .content(userJson))
-    //             .andExpect(status().isCreated())
-    //             .andExpect(jsonPath("$.id").isNumber())
-    //             .andExpect(jsonPath("$.name").value("John Doe"))
-    //             .andExpect(jsonPath("$.email").value("john.doe@example.com"));
-    // }
-
     @Test
+    @DisplayName("should get a user by id")
     public void testGetUserById() throws Exception {
         
 

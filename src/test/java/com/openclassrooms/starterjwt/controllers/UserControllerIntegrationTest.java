@@ -41,7 +41,8 @@ public class UserControllerIntegrationTest {
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(authRequest));
+                        .content(authRequest))
+                        .andExpect(status().isOk());
         
         // login
         String loginRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"password\": \"" + "superpassword" + "\" }";

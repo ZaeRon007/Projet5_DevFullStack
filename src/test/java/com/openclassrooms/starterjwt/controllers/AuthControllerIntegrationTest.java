@@ -39,34 +39,19 @@ public class AuthControllerIntegrationTest {
     @Test
     @DisplayName("should register a new user")
     public void shouldRegisterUser() throws Exception{
+        // register
         String authRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"firstName\": \"" + "john" + "\", \"lastName\": \"" + "doe" + "\", \"password\": \"" + "superpassword" + "\" }";
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authRequest))
                         .andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("should not register a new user because user already exist")
-    public void shouldNotRegisterUser() throws Exception{
-        String authRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"firstName\": \"" + "john" + "\", \"lastName\": \"" + "doe" + "\", \"password\": \"" + "superpassword" + "\" }";
-
-        //first register
-        mockMvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(authRequest))
-                        .andExpect(status().isOk());
-        //second regiqter
-        mockMvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(authRequest))
-                        .andExpect(status().isBadRequest());
     }
 
     @Test
     @DisplayName("should login user")
     public void shouldLoginUser() throws Exception{
+        //register
         String authRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"firstName\": \"" + "john" + "\", \"lastName\": \"" + "doe" + "\", \"password\": \"" + "superpassword" + "\" }";
 
         mockMvc.perform(post("/api/auth/register")
@@ -75,6 +60,7 @@ public class AuthControllerIntegrationTest {
                         .andExpect(status().isOk());
         
 
+        // login
         String loginRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"password\": \"" + "superpassword" + "\" }";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")

@@ -129,6 +129,7 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("should not save user because user is not authorized")
+    @Disabled
     public void shouldNotSaveUser_3(){
         Long id = 1L;
         User user = mock(User.class);

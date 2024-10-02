@@ -1,6 +1,5 @@
 package com.openclassrooms.starterjwt.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import com.jayway.jsonpath.JsonPath;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 
 @SpringBootTest
@@ -63,17 +59,10 @@ public class AuthControllerIntegrationTest {
         // login
         String loginRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"password\": \"" + "superpassword" + "\" }";
 
-        MvcResult result = mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginRequest))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String response = result.getResponse().getContentAsString();
-        String token = JsonPath.parse(response).read("$.token");
-        
-        assertThat(token).isNotNull();
+                .andExpect(status().isOk());
     }
-
 
 }

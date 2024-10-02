@@ -85,7 +85,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("should save user")
+    @DisplayName("should delete user")
     @Disabled
     public void shouldSaveUser(){
         Long id = 1L;
@@ -102,7 +102,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("should not save user because user is null")
+    @DisplayName("should not delete user because user is null")
     public void shouldNotSaveUser_1(){
         Long id = 1L;
 
@@ -116,7 +116,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("should not save user because id is incorrect")
+    @DisplayName("should not delete user because id is incorrect")
     public void shouldNotSaveUser_2(){
         String id = "oups";
 
@@ -128,7 +128,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("should not save user because user is not authorized")
+    @DisplayName("should not delete user because user is not authorized")
     @Disabled
     public void shouldNotSaveUser_3(){
         Long id = 1L;

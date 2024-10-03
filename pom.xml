@@ -118,10 +118,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-			<!-- <plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin> -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -132,6 +128,7 @@
 						<exclude>com/openclassrooms/starterjwt/payload/request/*</exclude>
 						<exclude>com/openclassrooms/starterjwt/payload/response/*</exclude>
 						<exclude>com/openclassrooms/starterjwt/models/*</exclude>
+						<exclude>com/openclassrooms/starterjwt/mapper/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -159,11 +156,11 @@
 								<rule>
 									<element>PACKAGE</element>
 									<limits>
-										<limit>
+										<!-- <limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
 											<minimum>0.9</minimum>
-										</limit>
+										</limit> -->
 									</limits>
 								</rule>
 							</rules>

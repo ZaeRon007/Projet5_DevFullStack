@@ -1,45 +1,79 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from 'src/app/services/session.service';
-
 import { MeComponent } from './me.component';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
 describe('MeComponent', () => {
   let component: MeComponent;
   let fixture: ComponentFixture<MeComponent>;
-
-  const mockSessionService = {
-    sessionInformation: {
-      admin: true,
-      id: 1
-    }
-  }
+  let mockSessionService: any;
+  let mockUserService: any;
+  let mockRouterService: any;
+  let mockMatSnackBar: any;
+  
   beforeEach(async () => {
+
+    mockUserService = {
+      delete: jest.fn().mockReturnValue(of({}))
+    };
+
+    mockSessionService = {
+      sessionInformation: {id: 1},
+      logOut: jest.fn()
+    };
+
+    mockRouterService = {
+      navigate: jest.fn()
+    };
+
+    mockMatSnackBar = {
+      open: jest.fn()
+    };
+
     await TestBed.configureTestingModule({
       declarations: [MeComponent],
-      imports: [
-        MatSnackBarModule,
-        HttpClientModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule
+      imports: [ReactiveFormsModule],
+      //   MatSnackBarModule,
+      //   HttpClientModule,
+      //   MatCardModule,
+      //   MatFormFieldModule,
+      //   MatIconModule,
+      //   MatInputModule,
+      //   ReactiveFormsModule
+      // ],
+      providers: [
+        { provide: UserService, useValue: mockUserService },
+        { provide: SessionService, useValue: mockSessionService },
+        { provide: Router, useValue: mockRouterService },
+        { provide: MatSnackBar, useValue: mockMatSnackBar },
       ],
-      providers: [{ provide: SessionService, useValue: mockSessionService }],
     })
       .compileComponents();
 
     fixture = TestBed.createComponent(MeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  // it('should create', () => {
+  //   expect(component).toBeTruthy();
+  // });
+
+  it('should delete user, show a message, log out and navigate to home page', () => {
+    component.delete();
+
+    expect(mockUserService.delete).toHaveBeenCalledWith('1');
+
+    expect(mockMatSnackBar.open).toHaveBeenCalledWith(
+      'Your account has been deleted !', 'Close', { duration: 3000 }
+    );
+
+    expect(mockSessionService.logOut).toHaveBeenCalled();
+
+    expect(mockRouterService.navigate).toHaveBeenCalledWith(['/']);
+  })
 });

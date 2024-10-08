@@ -7,10 +7,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -24,10 +22,12 @@ import com.openclassrooms.starterjwt.dto.TeacherDto;
 import com.openclassrooms.starterjwt.mapper.TeacherMapper;
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.services.TeacherService;
+import org.springframework.test.context.ActiveProfiles;
 
 @Tag("TeacherController")
 @DisplayName("unit tests for TeacherController")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class TeacherControllerTest {
     
     @InjectMocks

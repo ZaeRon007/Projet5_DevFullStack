@@ -15,12 +15,14 @@ import com.jayway.jsonpath.JsonPath;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.test.context.ActiveProfiles;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("UserControllerIntegrationTest")
 @DisplayName("integration tests for UserController")
+@ActiveProfiles("test")
 public class UserControllerIntegrationTest {
     
     @Autowired

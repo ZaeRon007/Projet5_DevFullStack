@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-
+import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 import org.mockito.InjectMocks;
@@ -25,6 +25,7 @@ import com.openclassrooms.starterjwt.services.SessionService;
 @Tag("SessionController")
 @DisplayName("unit tests for SessionController")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class SessionControllerTest {
 
     @InjectMocks

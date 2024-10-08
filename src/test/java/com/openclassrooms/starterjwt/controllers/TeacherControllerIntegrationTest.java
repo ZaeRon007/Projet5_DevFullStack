@@ -17,11 +17,13 @@ import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("TeacherControllerIntegrationTest")
 @DisplayName("integration tests for TeacherController")
+@ActiveProfiles("test")
 public class TeacherControllerIntegrationTest {
 
     @Autowired

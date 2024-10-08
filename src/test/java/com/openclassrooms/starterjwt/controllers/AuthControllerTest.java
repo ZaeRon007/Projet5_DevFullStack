@@ -24,10 +24,12 @@ import com.openclassrooms.starterjwt.payload.request.SignupRequest;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
+import org.springframework.test.context.ActiveProfiles;
 
 @Tag("AuthController")
 @DisplayName("unit tests for AuthController")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class AuthControllerTest {
 
     @InjectMocks

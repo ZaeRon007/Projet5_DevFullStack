@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.test.context.ActiveProfiles;
 
 
 @Tag("SessionService")
 @DisplayName("unit tests for session service")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class SessionServiceTest {
       
     @InjectMocks

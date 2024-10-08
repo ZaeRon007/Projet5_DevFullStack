@@ -21,10 +21,12 @@ import com.openclassrooms.starterjwt.dto.UserDto;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.UserService;
+import org.springframework.test.context.ActiveProfiles;
 
 @Tag("UserController")
 @DisplayName("unit tests for UserController")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class UserControllerTest {
 
     @InjectMocks

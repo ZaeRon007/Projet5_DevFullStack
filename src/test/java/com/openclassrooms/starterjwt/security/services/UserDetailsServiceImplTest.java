@@ -17,10 +17,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
+import org.springframework.test.context.ActiveProfiles;
 
 @Tag("UserDetailsServiceImpl")
 @DisplayName("unit tests for UserDetailsServiceImpl")
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class UserDetailsServiceImplTest {
     
     @InjectMocks

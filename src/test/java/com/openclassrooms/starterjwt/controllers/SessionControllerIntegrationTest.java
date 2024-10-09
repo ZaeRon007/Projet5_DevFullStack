@@ -36,7 +36,10 @@ public class SessionControllerIntegrationTest {
     @BeforeAll
     void setup() throws Exception {        
         // login
-        String loginRequest = "{ \"email\": \"" + "tyty@gmail.com" + "\", \"password\": \"" + "test!1234" + "\" }";
+        String loginRequest = "{" + 
+                            "   \"email\": \"tyty@gmail.com\"," + 
+                            "   \"password\": \"test!1234\"" +
+                            " }";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -52,7 +55,10 @@ public class SessionControllerIntegrationTest {
     @DisplayName("should create session")
     public void shouldCreateSession() throws Exception{
         // create session
-        String sessionRequest = "{ \"name\": \"" + "session" + "\", \"date\": \"" + "2024-09-30" + "\", \"teacher_id\": \"" + "1" + "\", \"description\": \"" + "superbe description" + "\" }";
+        String sessionRequest = "{ \"name\": \"session\"," +
+                                "   \"date\": \"2024-09-30\"," + 
+                                "   \"teacher_id\": \"1\"," + 
+                                "   \"description\": \"superbe description\" }";
 
         mockMvc.perform(post("/api/session/")
                         .header("Authorization", "Bearer " + token)
@@ -68,7 +74,10 @@ public class SessionControllerIntegrationTest {
         int id = 1; 
 
         // update session
-        String sessionUpdateRequest = "{ \"name\": \"" + "sessionUpdated" + "\", \"date\": \"" + "2024-09-30 01:00:00" + "\", \"teacher_id\": \"" + "1" + "\", \"description\": \"" + "superbe description" + "\" }";
+        String sessionUpdateRequest = "{ \"name\": \"sessionUpdated\"," +  
+                                        "\"date\": \"2024-09-30 01:00:00\"," +
+                                        "\"teacher_id\": \"1\"," +  
+                                        "\"description\": \"superbe description\" }";
 
         mockMvc.perform(put("/api/session/" + id)
                         .header("Authorization", "Bearer " + token)
@@ -135,7 +144,10 @@ public class SessionControllerIntegrationTest {
     @DisplayName("should find all")
     public void shouldFindAllSessions() throws Exception{
         // create session 1 
-        String sessionRequest1 = "{ \"name\": \"" + "session1" + "\", \"date\": \"" + "2024-09-30" + "\", \"teacher_id\": \"" + "1" + "\", \"description\": \"" + "superbe description" + "\" }";
+        String sessionRequest1 = "{ \"name\": \"session1\"," +  
+                                    "\"date\": \"2024-09-30\"," +  
+                                    "\"teacher_id\": \"1\"," +  
+                                    "\"description\": \"superbe description\" }";
 
         mockMvc.perform(post("/api/session/")
                         .header("Authorization", "Bearer " + token)
@@ -145,7 +157,10 @@ public class SessionControllerIntegrationTest {
                         .andReturn();
 
         // create session 2
-        String sessionRequest2 = "{ \"name\": \"" + "session2" + "\", \"date\": \"" + "2024-10-01" + "\", \"teacher_id\": \"" + "1" + "\", \"description\": \"" + "superbe description" + "\" }";
+        String sessionRequest2 = "{ \"name\": \"session2\"," +  
+                                    "\"date\": \"2024-10-01\"," +  
+                                    "\"teacher_id\": \"1\"," +  
+                                    "\"description\": \"superbe description\" }";
 
         mockMvc.perform(post("/api/session/")
                         .header("Authorization", "Bearer " + token)
@@ -155,7 +170,10 @@ public class SessionControllerIntegrationTest {
                         .andReturn();
                         
         // create session 3
-        String sessionRequest3 = "{ \"name\": \"" + "session3" + "\", \"date\": \"" + "2024-10-05" + "\", \"teacher_id\": \"" + "1" + "\", \"description\": \"" + "superbe description" + "\" }";
+        String sessionRequest3 = "{ \"name\": \"session3\"," +  
+                                    "\"date\": \"2024-10-05\"," +  
+                                    "\"teacher_id\": \"1\"," +  
+                                    "\"description\": \"superbe description\" }";
 
         mockMvc.perform(post("/api/session/")
                         .header("Authorization", "Bearer " + token)

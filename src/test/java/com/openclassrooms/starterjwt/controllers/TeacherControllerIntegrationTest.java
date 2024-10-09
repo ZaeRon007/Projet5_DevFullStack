@@ -34,7 +34,10 @@ public class TeacherControllerIntegrationTest {
     @BeforeAll
     public void setup() throws Exception{
         // login
-        String loginRequest = "{ \"email\": \"" + "tyty@gmail.com" + "\", \"password\": \"" + "test!1234" + "\" }";
+        String loginRequest =  "{" + 
+                                "   \"email\": \"tyty@gmail.com\"," + 
+                                "   \"password\": \"test!1234\"" +
+                                " }";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

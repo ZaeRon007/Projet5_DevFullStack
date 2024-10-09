@@ -30,7 +30,12 @@ public class AuthControllerIntegrationTest {
     @DisplayName("should register a new user")
     public void shouldRegisterUser() throws Exception{
         // register
-        String authRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"firstName\": \"" + "john" + "\", \"lastName\": \"" + "doe" + "\", \"password\": \"" + "superpassword" + "\" }";
+        String authRequest = "{" + 
+                            "   \"email\": \"jd@gmail.com\"," + 
+                            "   \"firstName\": \"john\"," +
+                            "   \"lastName\": \"doe\"," + 
+                            "   \"password\": \"superpassword\"" +
+                            " }";
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +48,10 @@ public class AuthControllerIntegrationTest {
     public void shouldLoginUser() throws Exception{
         
         // login
-        String loginRequest = "{ \"email\": \"" + "toto@gmail.com" + "\", \"password\": \"" + "test!1234" + "\" }";
+        String loginRequest =  "{" + 
+                            "   \"email\": \"toto@gmail.com\"," + 
+                            "   \"password\": \"test!1234\"" +
+                            " }";
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)

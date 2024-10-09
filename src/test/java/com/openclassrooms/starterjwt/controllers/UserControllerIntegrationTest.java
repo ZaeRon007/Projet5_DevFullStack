@@ -1,19 +1,21 @@
 package com.openclassrooms.starterjwt.controllers;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.hamcrest.Matchers.is;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import com.jayway.jsonpath.JsonPath;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -23,6 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Tag("UserControllerIntegrationTest")
 @DisplayName("integration tests for UserController")
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerIntegrationTest {
     
     @Autowired
@@ -33,21 +36,10 @@ public class UserControllerIntegrationTest {
 
     private String token;
 
-    @BeforeEach
-    @Sql({"/script.sql"})
-    void setup() throws Exception {
-        userRepository.deleteAll();
-
-        // register 
-        String authRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"firstName\": \"" + "john" + "\", \"lastName\": \"" + "doe" + "\", \"password\": \"" + "superpassword" + "\" }";
-
-        mockMvc.perform(post("/api/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(authRequest))
-                        .andExpect(status().isOk());
-        
+    @BeforeAll
+    void setup() throws Exception {     
         // login
-        String loginRequest = "{ \"email\": \"" + "jd@gmail.com" + "\", \"password\": \"" + "superpassword" + "\" }";
+        String loginRequest = "{ \"email\": \"" + "toto@gmail.com" + "\", \"password\": \"" + "test!1234" + "\" }";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -62,17 +54,13 @@ public class UserControllerIntegrationTest {
     @Test
     @DisplayName("should get a user by id")
     public void shouldGetUserById() throws Exception {
-        Long userId = userRepository.findByEmail("jd@gmail.com").get().getId();
-
-        String getRequest = "{ \"id\": \"" + userId + "\" }";
+        int userId = 2;
 
         // get user 
         mockMvc.perform(get("/api/user/" + userId)
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(getRequest))
+                        .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
-                        .andReturn();
+                        .andExpect(jsonPath("firstname", is("titi")));
     }
 
     @Test
@@ -87,8 +75,7 @@ public class UserControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(deleteRequest))
-                        .andExpect(status().isOk())
-                        .andReturn();
+                        .andExpect(status().isOk());
     }
 
 

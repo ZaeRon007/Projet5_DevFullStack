@@ -16,13 +16,14 @@ import com.openclassrooms.starterjwt.repository.UserRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("SessionControllerIntegrationTest")
 @DisplayName("integration tests for SessionController")
+@TestInstance(Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SessionControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;

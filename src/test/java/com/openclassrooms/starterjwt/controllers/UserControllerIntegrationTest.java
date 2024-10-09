@@ -18,14 +18,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("UserControllerIntegrationTest")
 @DisplayName("integration tests for UserController")
+@TestInstance(Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerIntegrationTest {
     
     @Autowired

@@ -15,13 +15,15 @@ import com.jayway.jsonpath.JsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Tag("TeacherControllerIntegrationTest")
 @DisplayName("integration tests for TeacherController")
+@TestInstance(Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TeacherControllerIntegrationTest {
 
     @Autowired

@@ -1,4 +1,19 @@
 describe('Login spec', () => {
+  it('should display \"An error occurred\"', () => {
+    cy.intercept('POST', '/api/auth/login').as('loginRequest');
+  
+    cy.visit('/login');
+    cy.get('input[formcontrolname="email"]').type('wrong@example.com');
+    cy.get('input[formcontrolname="password"]').type('WrongPassword');
+    cy.get('button[type="submit"]').click();
+  
+  
+    cy.wait('@loginRequest').then((interceptor) => {
+      expect(interceptor.response.statusCode).to.eq(401);
+      cy.get('p').contains('An error occurred');
+    });
+  })
+
   it('Login successfull', () => {
     cy.visit('/login')
 

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Tag("UserControllerIntegrationTest")
 @DisplayName("integration tests for UserController")
 @TestInstance(Lifecycle.PER_CLASS)

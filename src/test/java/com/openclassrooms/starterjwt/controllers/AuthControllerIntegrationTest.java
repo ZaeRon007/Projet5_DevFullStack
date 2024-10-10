@@ -1,5 +1,6 @@
 package com.openclassrooms.starterjwt.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Tag("AuthControllerIntegrationTest")
 @DisplayName("integration tests for AuthController")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -31,16 +33,19 @@ public class AuthControllerIntegrationTest {
     public void shouldRegisterUser() throws Exception{
         // register
         String authRequest = "{" + 
-                            "   \"email\": \"jd@gmail.com\"," + 
-                            "   \"firstName\": \"john\"," +
-                            "   \"lastName\": \"doe\"," + 
-                            "   \"password\": \"superpassword\"" +
-                            " }";
+                            "\"email\": \"jd@gmail.com\"," + 
+                            "\"firstName\": \"john\"," +
+                            "\"lastName\": \"doe\"," + 
+                            "\"password\": \"superpassword\"," +
+                            "\"admin\": \"false\"" +
+                            "}";
 
-        mockMvc.perform(post("/api/auth/register")
+        MvcResult response = mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authRequest))
-                        .andExpect(status().isOk());
+                        .andExpect(status().isOk())
+                        .andReturn();
+        assertThat(response.getResponse().getContentAsString().contains("User registered successfully!"));
     }
 
     @Test
@@ -49,9 +54,9 @@ public class AuthControllerIntegrationTest {
         
         // login
         String loginRequest =  "{" + 
-                            "   \"email\": \"toto@gmail.com\"," + 
-                            "   \"password\": \"test!1234\"" +
-                            " }";
+                            "\"email\": \"toto@gmail.com\"," + 
+                            "\"password\": \"test!1234\"" +
+                            "}";
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)

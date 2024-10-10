@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Tag("SessionControllerIntegrationTest")
 @DisplayName("integration tests for SessionController")
 @TestInstance(Lifecycle.PER_CLASS)

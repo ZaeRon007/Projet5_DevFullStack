@@ -16,9 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @Tag("AuthControllerIntegrationTest")
 @DisplayName("integration tests for AuthController")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -32,13 +31,12 @@ public class AuthControllerIntegrationTest {
     @DisplayName("should register a new user")
     public void shouldRegisterUser() throws Exception{
         // register
-        String authRequest = "{" + 
-                            "\"email\": \"jd@gmail.com\"," + 
-                            "\"firstName\": \"john\"," +
-                            "\"lastName\": \"doe\"," + 
-                            "\"password\": \"superpassword\"," +
-                            "\"admin\": \"false\"" +
-                            "}";
+        String authRequest = "{" +
+                                "\"email\": \"pere.ducrass@gmail.com\"," +
+                                "\"firstName\": \"pere\"," +
+                                "\"lastName\": \"ducrass\"," +
+                                "\"password\": \"Antonin!!!!\"" +
+                                "}";
 
         MvcResult response = mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -53,10 +51,10 @@ public class AuthControllerIntegrationTest {
     public void shouldLoginUser() throws Exception{
         
         // login
-        String loginRequest =  "{" + 
-                            "\"email\": \"toto@gmail.com\"," + 
-                            "\"password\": \"test!1234\"" +
-                            "}";
+        String loginRequest =  "{" +
+                                "    \"email\": \"toto@gmail.com\"," +
+                                "    \"password\": \"test!1234\"" +
+                                "}";
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)

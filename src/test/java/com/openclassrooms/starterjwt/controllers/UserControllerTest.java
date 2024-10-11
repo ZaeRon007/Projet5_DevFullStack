@@ -1,13 +1,14 @@
 package com.openclassrooms.starterjwt.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import com.openclassrooms.starterjwt.dto.UserDto;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
+import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 import com.openclassrooms.starterjwt.services.UserService;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -37,6 +43,9 @@ public class UserControllerTest {
 
     @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private SecurityContext securityContext;
 
     @Test
     @DisplayName("should find by id")
@@ -88,19 +97,25 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("should delete user")
-    @Disabled
     public void shouldSaveUser(){
         Long id = 1L;
-        User user = mock(User.class);
+        String email = "toto@gmail.com";
+        String firstname = "toto";
+        String lastname = "titi";
+        boolean isAdmin = false;
+        String password = "toto123!";
+        User user = new User(id, email, lastname, firstname, password, isAdmin, null, null);
+        UserDetailsImpl userDetailsImpl = new UserDetailsImpl(id, email, firstname, lastname, null, password);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetailsImpl, null);
+        SecurityContextHolder.setContext(securityContext);
 
+        when(securityContext.getAuthentication()).thenReturn(authentication);
         when(userService.findById(id)).thenReturn(user);
+        doNothing().when(userService).delete(id);
 
-        ResponseEntity<?> responseEntity = userController.save(id.toString());
+        ResponseEntity<?> response = userController.save(id.toString());
 
-        verify(userService, times(1)).findById(id);
-        verify(userService, times(0)).delete(id);
-
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
@@ -131,20 +146,28 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("should not delete user because user is not authorized")
-    @Disabled
     public void shouldNotSaveUser_3(){
         Long id = 1L;
-        User user = mock(User.class);
-        
+        String email = "toto@gmail.com";
+        String firstname = "toto";
+        String lastname = "titi";
+        boolean isAdmin = false;
+        String password = "toto123!";
+        User user = new User(id, email, lastname, firstname, password, isAdmin, null, null);
+        // En authentification un email différent
+        UserDetailsImpl userDetailsImpl = new UserDetailsImpl(id, "differentEmail@gmail.com", firstname,
+                        lastname, null, password);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetailsImpl, null);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
         when(userService.findById(id)).thenReturn(user);
-        
-        ResponseEntity<?> responseEntity = userController.save(id.toString());
-        
-        verify(userService, times(1)).findById(id);
-        verify(userService, times(0)).delete(id);
-        
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        
+
+        // ACT
+        ResponseEntity<?> response = userController.save(id.toString());
+
+        // ASSERT on s'attend à ce que le code retour soit UNAUTHORIZED
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 
 }

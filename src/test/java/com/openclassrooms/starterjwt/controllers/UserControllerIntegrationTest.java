@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @Tag("UserControllerIntegrationTest")
 @DisplayName("integration tests for UserController")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -76,7 +76,7 @@ public class UserControllerIntegrationTest {
                         .content(requestBodyLoginUser))
                         .andReturn();
 
-        String tokenForUserToDelete = "Bearer " + JsonPath.read(resultLogin.getResponse().getContentAsString(), "$.token");
+        String tokenForUserToDelete = JsonPath.read(resultLogin.getResponse().getContentAsString(), "$.token");
 
         Long userId = userRepository.findByEmail("tata@gmail.com").get().getId();
 

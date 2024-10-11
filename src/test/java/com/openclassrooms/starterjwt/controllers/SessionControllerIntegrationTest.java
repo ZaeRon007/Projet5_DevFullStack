@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @Tag("SessionControllerIntegrationTest")
 @DisplayName("integration tests for SessionController")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -37,9 +37,9 @@ public class SessionControllerIntegrationTest {
     void setup() throws Exception {        
         // login
         String loginRequest = "{" + 
-                            "   \"email\": \"tyty@gmail.com\"," + 
-                            "   \"password\": \"test!1234\"" +
-                            " }";
+                            "\"email\": \"tyty@gmail.com\"," + 
+                            "\"password\": \"test!1234\"" +
+                            "}";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -71,15 +71,16 @@ public class SessionControllerIntegrationTest {
     @Test
     @DisplayName("should update session by id")
     public void shouldUpdateSessionById() throws Exception{
-        int id = 1; 
-
         // update session
-        String sessionUpdateRequest = "{ \"name\": \"sessionUpdated\"," +  
-                                        "\"date\": \"2024-09-30 01:00:00\"," +
-                                        "\"teacher_id\": \"1\"," +  
-                                        "\"description\": \"superbe description\" }";
+        String sessionUpdateRequest = "{" +
+                                "    \"name\": \"Session pour les pros UPDATED\"," +
+                                "    \"date\": \"2023-12-01\"," +
+                                "    \"teacher_id\": 1," +
+                                "    \"users\": null," +
+                                "    \"description\": \"Session pour les pros\"" +
+                                "}";
 
-        mockMvc.perform(put("/api/session/" + id)
+        mockMvc.perform(put("/api/session/1")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionUpdateRequest))
@@ -89,10 +90,8 @@ public class SessionControllerIntegrationTest {
     @Test
     @DisplayName("should delete session by id")
     public void shouldDeleteSessionById() throws Exception{
-        int id = 2; 
-
         // delete session
-        mockMvc.perform(delete("/api/session/" + id)
+        mockMvc.perform(delete("/api/session/2")
                         .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk());
     }

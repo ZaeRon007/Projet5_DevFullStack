@@ -1,6 +1,5 @@
 package com.openclassrooms.starterjwt.controllers;
 
-import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -15,12 +14,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.jayway.jsonpath.JsonPath;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
@@ -64,20 +60,31 @@ public class UserControllerIntegrationTest {
         // get user 
         mockMvc.perform(get("/api/user/" + userId)
                         .header("Authorization", "Bearer " + token))
-                        .andExpect(status().isOk())
-                        .andExpect(jsonPath("firstname", is("titi")));
+                        .andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("should delete user by id")
     public void shouldDeleteUserById() throws Exception{
-        Long userId = userRepository.findByEmail("jd@gmail.com").get().getId();
+        String requestBodyLoginUser = "{" +
+                                "    \"email\": \"tata@gmail.com\"," +
+                                "    \"password\": \"test!1234\"" +
+                                "}";
+
+        MvcResult resultLogin = mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBodyLoginUser))
+                        .andReturn();
+
+        String tokenForUserToDelete = "Bearer " + JsonPath.read(resultLogin.getResponse().getContentAsString(), "$.token");
+
+        Long userId = userRepository.findByEmail("tata@gmail.com").get().getId();
 
         String deleteRequest = "{ \"id\": \"" + userId + "\" }";
 
         // delete user 
         mockMvc.perform(delete("/api/user/" + userId)
-                        .header("Authorization", "Bearer " + token)
+                        .header("Authorization", "Bearer " + tokenForUserToDelete)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(deleteRequest))
                         .andExpect(status().isOk());

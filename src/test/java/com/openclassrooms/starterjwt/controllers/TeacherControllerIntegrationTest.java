@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @Tag("TeacherControllerIntegrationTest")
 @DisplayName("integration tests for TeacherController")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -35,9 +35,9 @@ public class TeacherControllerIntegrationTest {
     public void setup() throws Exception{
         // login
         String loginRequest =  "{" + 
-                                "   \"email\": \"tyty@gmail.com\"," + 
-                                "   \"password\": \"test!1234\"" +
-                                " }";
+                                "\"email\": \"tyty@gmail.com\"," + 
+                                "\"password\": \"test!1234\"" +
+                                "}";
 
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

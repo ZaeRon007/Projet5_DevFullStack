@@ -37,14 +37,6 @@ describe('MeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [MeComponent],
       imports: [ReactiveFormsModule],
-      //   MatSnackBarModule,
-      //   HttpClientModule,
-      //   MatCardModule,
-      //   MatFormFieldModule,
-      //   MatIconModule,
-      //   MatInputModule,
-      //   ReactiveFormsModule
-      // ],
       providers: [
         { provide: UserService, useValue: mockUserService },
         { provide: SessionService, useValue: mockSessionService },
@@ -56,7 +48,7 @@ describe('MeComponent', () => {
 
     fixture = TestBed.createComponent(MeComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   // it('should create', () => {

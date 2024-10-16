@@ -5,6 +5,6 @@ declare namespace Cypress{
          * @param : email 
          * @param : password
          */
-        login(email: string, password: string): Chainable<any>
+        login(pEmail: string, pPassword: string): Chainable<any>
     }
 }

@@ -5,13 +5,11 @@ Cypress.Commands.add("login", (pEmail: string, pPassword: string) => {
         method: 'POST',
         url: '/api/auth/login',
         body:{
-            user:{
-                email: pEmail,
-                password: pPassword,
-            }
+            email: pEmail,
+            password: pPassword,
         }
     }).then((response) => {
-        window.localStorage.setItem('jwt', response.body.user.token)
+        window.localStorage.setItem('jwt', response.body.token)
     })
 })
 

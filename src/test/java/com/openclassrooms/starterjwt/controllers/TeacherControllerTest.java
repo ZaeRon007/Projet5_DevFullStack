@@ -22,12 +22,10 @@ import com.openclassrooms.starterjwt.dto.TeacherDto;
 import com.openclassrooms.starterjwt.mapper.TeacherMapper;
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.services.TeacherService;
-import org.springframework.test.context.ActiveProfiles;
 
 @Tag("TeacherController")
 @DisplayName("unit tests for TeacherController")
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 public class TeacherControllerTest {
     
     @InjectMocks

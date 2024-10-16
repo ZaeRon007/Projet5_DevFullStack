@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -17,19 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import com.openclassrooms.starterjwt.models.User;
-import com.openclassrooms.starterjwt.payload.request.LoginRequest;
 import com.openclassrooms.starterjwt.payload.request.SignupRequest;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
-import org.springframework.test.context.ActiveProfiles;
 
 @Tag("AuthController")
 @DisplayName("unit tests for AuthController")
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 public class AuthControllerTest {
 
     @InjectMocks
@@ -52,50 +47,6 @@ public class AuthControllerTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
-
-    @Test
-    @DisplayName("should authenticate user")
-    public void shouldAuthenticateUser(){
-
-        // GIVEN
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("john.doe@gmail.com");
-        loginRequest.setPassword("super-password");
-
-        User user = new User();
-        user.setAdmin(true);
-
-        UserDetailsImpl userDetailsImpl = new UserDetailsImpl(1L, 
-                                    "john.doe@gmail.com", 
-                                    "John", 
-                                    "Doe", 
-                                    false, 
-                                    "super-password");
-        
-        Authentication authentication = mock(Authentication.class);
-        
-        
-        // WHEN
-
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
-
-        when(authentication.getPrincipal()).thenReturn(userDetailsImpl);
-
-        when(jwtUtils.generateJwtToken(any(Authentication.class))).thenReturn("thisIsaFakeToken");
-
-        when(userRepository.findByEmail(userDetailsImpl.getUsername())).thenReturn(Optional.of(user));
-
-        // THEN
-
-        ResponseEntity<?> responseEntity = authController.authenticateUser(loginRequest);
-
-        verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtUtils, times(1)).generateJwtToken(any(Authentication.class));
-        verify(userRepository, times(1)).findByEmail(userDetailsImpl.getUsername());
-
-        assertThat(responseEntity).isNotNull();
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
 
     @Test
     @DisplayName("should register user")

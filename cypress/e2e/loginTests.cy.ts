@@ -18,25 +18,33 @@ describe('Login spec', () => {
     cy.visit('/login')
 
     cy.intercept('POST', '/api/auth/login', {
-      body: {
-        id: 1,
-        username: 'userName',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        admin: true
-      },
-    })
+        statusCode: 200,    
+        body: {
+            id: 1,
+            username: 'userName',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            admin: true,
+            token: 'fake-jwt-token'
+        },
+    }).as('loginRequest')
 
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/api/session',
-      },
-      []).as('session')
+    cy.intercept('GET', '/api/session', {
+        statusCode: 200, 
+        body: {
+            id: 1,            
+        }
+      }).as('sessionRequest')
 
     cy.get('input[formControlName=email]').type("yoga@studio.com")
     cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
 
+    cy.wait('@loginRequest')
+
     cy.url().should('include', '/sessions')
+
+    cy.wait('@sessionRequest')
+
+    cy.get('mat-card-title').contains('Rentals available')
   })
 });

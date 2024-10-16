@@ -41,3 +41,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (pEmail, pPassword) => {
+
+    cy.request({
+        method: 'POST',
+        url: '/api/auth/login',
+        body:{
+            user:{
+                email: pEmail,
+                password: pPassword,
+            }
+        }
+    }).then((response) => {
+        window.localStorage.setItem('jwt', response.body.user.token)
+    })
+})
+

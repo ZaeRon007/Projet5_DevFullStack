@@ -44,3 +44,4 @@ Thumbs.db
 **/.DS_Store 
 .nyc_output/out.json
 jest
+.nyc_output/out.json

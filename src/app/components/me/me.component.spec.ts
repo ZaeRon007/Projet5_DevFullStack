@@ -48,12 +48,7 @@ describe('MeComponent', () => {
 
     fixture = TestBed.createComponent(MeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
-
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
 
   it('should delete user, show a message, log out and navigate to home page', () => {
     component.delete();

@@ -1,4 +1,4 @@
-describe('Login spec', () => {
+describe('Login test', () => {
   it('should display \"An error occurred\"', () => {
     cy.intercept('POST', '/api/auth/login').as('loginRequest');
   

@@ -59,7 +59,7 @@ describe('functional test for session interface', () => {
 
         cy.url().should('include', '/sessions')
 
-        cy.get('button[ng-reflect-router-link="create"]').click();
+        cy.get('[fxlayout="row"] > .mat-focus-indicator').click();
 
         cy.url().should('include', '/sessions/create')
 

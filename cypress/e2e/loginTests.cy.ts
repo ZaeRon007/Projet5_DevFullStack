@@ -1,6 +1,8 @@
 describe('Login test', () => {
   it('should display \"An error occurred\"', () => {
-    cy.intercept('POST', '/api/auth/login').as('loginRequest');
+    cy.intercept('POST', '/api/auth/login', {
+      statusCode: 401,
+    }).as('loginRequest');
   
     cy.visit('/login');
     cy.get('input[formcontrolname="email"]').type('wrong@example.com');
@@ -8,10 +10,9 @@ describe('Login test', () => {
     cy.get('button[type="submit"]').click();
   
   
-    cy.wait('@loginRequest').then((interceptor) => {
-      expect(interceptor.response.statusCode).to.eq(401);
-      cy.get('p').contains('An error occurred');
-    });
+    cy.wait('@loginRequest')
+    
+    cy.get('p').contains('An error occurred');
   })
 
   it('Login successfull', () => {

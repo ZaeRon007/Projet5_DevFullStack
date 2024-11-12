@@ -1,14 +1,8 @@
 # Application Yog'app
 
-## Installation : 
+## Installation des outils (Linux) : 
 
-Le projet neccessite deux répertoires différents : 
-* Un répertoire pour le front-end
-* Un répertoire pour le back-end
-
-### Installation des outils (Linux) : 
-
-#### Java & Maven : 
+### Java & Maven : 
 
 * Installation de java : `sudo apt install openjdk-8-jdk`
 
@@ -42,7 +36,7 @@ Ajouter les lignes suivantes en fin de fichier :
 
 `export PATH=${M2_HOME}/bin:${PATH}`
 
-#### Mysql : 
+### Mysql : 
 
 `sudo apt install mysql-server`
 
@@ -58,7 +52,7 @@ Réaliser la combinaison CTRL + D, puis :
 
 `mysql -u root -p yoga < script.sql`
 
-### Installer API back-end : 
+## Installer API back-end : 
 
 Depuis un terminal ou depuis vscode cloner le dossier distant https://github.com/ZaeRon007/Projet5_DevFullStack.git
 
@@ -66,15 +60,15 @@ Monter dans le répertoire : `cd Projet5_DevFullStack/back`
 
 Enfin, compilez l'application : `mvn compile`
 
-### Installer API Front-end : 
+## Installer API Front-end : 
 
 Monter dans le répertoire : `cd Projet5_DevFullStack/front`
 
-Enfin, compilez l'application : `npm install`
+Enfin, installez les dépendances de l'application : `npm install`
 
-## Tester les APIs : 
+# Tester les APIs : 
 
-### Tester l'API back-end : 
+## Tester l'API back-end : 
 
 `cd Projet5_DevFullStack/back`
 
@@ -82,16 +76,16 @@ Enfin, compilez l'application : `npm install`
 
 Pour observer le coverage total, ouvrir le fichier ci-dessous avec un navigateur : `/target/site/jacoco/index.html`
 
-### Tester l'API front-end : 
+## Tester l'API front-end : 
 
 `cd Projet5_DevFullStack/front`
 
-#### Test unitaire & intégration :
+### Test unitaire & intégration :
 
-Pour lancer les tests : `./node_modules/jest/bin/jest.js` 
+Pour lancer les tests : `./node_modules/jest/bin/jest.js` ou `./jest` (via lien symbolique)
 Pour vérifier le coverage ajouter l'option `--collect-coverage`
 
-#### Test end to end : 
+### Test end to end : 
 
 Lancer l'API back-end 
 
@@ -99,18 +93,18 @@ Pour lancer les tests : `npm run e2e`. Cypress s'ouvre, il nous indique de chois
 
 Pour observer le coverage des tests end to end : `npm run e2e:coverage`
 
-## Lancer l'application : 
+# Lancer l'application : 
 
 Pour lancer l'application il est nécessaire de démarrer l'API front-end ainsi que le back-end.
 
-### Lancer API back-end : 
+## Lancer API back-end : 
 
 `cd Projet5_DevFullStack/back`
 
-`mvn spring-boot:run`
+`mvn spring-boot:run` ou `./launch.sh`
 
-### Lancer API front-end : 
+## Lancer API front-end : 
 
 `cd Projet5_DevFullStack/front`
 
-`ng serve`
+`ng serve` ou `./launch.sh`

@@ -58,28 +58,17 @@ Réaliser la combinaison CTRL + D, puis :
 
 `mysql -u root -p yoga < script.sql`
 
-### Installer API Back-end : 
+### Installer API back-end : 
 
 Depuis un terminal ou depuis vscode cloner le dossier distant https://github.com/ZaeRon007/Projet5_DevFullStack.git
 
-
-Renommer le répertoire `Projet5_DevFullStack` en `Projet5_DevFullStack-back`
-
-Monter dans le répertoire : `cd Projet5_DevFullStack-back`
-
-Puis se positionner sur la branche back-end : `git checkout back-end`
+Monter dans le répertoire : `cd Projet5_DevFullStack/back`
 
 Enfin, compilez l'application : `mvn compile`
 
 ### Installer API Front-end : 
 
-Depuis un terminal ou depuis vscode cloner le dossier distant https://github.com/ZaeRon007/Projet5_DevFullStack.git
-
-Renommer le répertoire `Projet5_DevFullStack` en `Projet5_DevFullStack-front`
-
-Monter dans le répertoire : `cd Projet5_DevFullStack-front`
-
-Puis se positionner sur la branche back-end : `git checkout front-end`
+Monter dans le répertoire : `cd Projet5_DevFullStack/front`
 
 Enfin, compilez l'application : `npm install`
 
@@ -87,7 +76,7 @@ Enfin, compilez l'application : `npm install`
 
 ### Tester l'API back-end : 
 
-`cd Projet5_DevFullStack-back`
+`cd Projet5_DevFullStack/back`
 
 `mvn clean test`
 
@@ -95,7 +84,7 @@ Pour observer le coverage total, ouvrir le fichier ci-dessous avec un navigateur
 
 ### Tester l'API front-end : 
 
-`cd Projet5_DevFullStack-front`
+`cd Projet5_DevFullStack/front`
 
 #### Test unitaire & intégration :
 
@@ -116,12 +105,12 @@ Pour lancer l'application il est nécessaire de démarrer l'API front-end ainsi 
 
 ### Lancer API back-end : 
 
-`cd Projet5_DevFullStack-back`
+`cd Projet5_DevFullStack/back`
 
 `mvn spring-boot:run`
 
 ### Lancer API front-end : 
 
-`cd Projet5_DevFullStack-front`
+`cd Projet5_DevFullStack/front`
 
 `ng serve`

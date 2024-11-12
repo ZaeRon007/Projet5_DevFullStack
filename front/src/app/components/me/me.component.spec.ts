@@ -6,6 +6,8 @@ import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('MeComponent', () => {
   let component: MeComponent;
@@ -36,7 +38,9 @@ describe('MeComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [MeComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+                MatCardModule,
+                MatIconModule],
       providers: [
         { provide: UserService, useValue: mockUserService },
         { provide: SessionService, useValue: mockSessionService },

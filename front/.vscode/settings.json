@@ -1,0 +1,4 @@
+{
+    "java.compile.nullAnalysis.mode": "disabled",
+    "jest.jestCommandLine": "node_modules/jest/bin/jest.js"
+}

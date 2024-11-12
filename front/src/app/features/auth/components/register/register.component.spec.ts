@@ -5,6 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from './register.component';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -26,7 +32,12 @@ describe('RegisterComponent', () => {
       providers: [
         { provide: AuthService, useValue: mockAuthService },
         { provide: Router, useValue: mockRouter }],
-      imports: [ReactiveFormsModule]
+      imports: [ReactiveFormsModule,
+                BrowserAnimationsModule,
+                MatCardModule,
+                MatFormFieldModule,
+                MatIconModule,
+                MatInputModule]
     })
       .compileComponents();
 
@@ -34,14 +45,14 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
+  
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+  
   it('should initialize form', () => {
     fixture.detectChanges();
-
+    
     const form = component.form;
     expect(form.contains('email')).toBe(true);
     expect(form.contains('firstName')).toBe(true);
@@ -54,7 +65,7 @@ describe('RegisterComponent', () => {
     const mockResponse = {
       email: 'john@gmail.com',
       firstName: "john",
-      lastName: "doe", 
+      lastName: "doe",
       password: 'password'
     };
 
@@ -62,14 +73,14 @@ describe('RegisterComponent', () => {
 
     component.form.setValue({email: 'john@gmail.com',
                             firstName: "john",
-                            lastName: "doe", 
+                            lastName: "doe",
                             password: 'password'});
 
     component.submit();
 
     expect(mockAuthService.register).toHaveBeenCalledWith({email: 'john@gmail.com',
                                                           firstName: "john",
-                                                          lastName: "doe", 
+                                                          lastName: "doe",
                                                           password: 'password'});
 
 
